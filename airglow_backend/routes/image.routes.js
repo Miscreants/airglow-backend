@@ -3,19 +3,18 @@ const { base } = require("../models/Image.model");
 const router = express.Router();
 const Image = require("../models/Image.model");
 
-router.post('/uploadImage', (req, res) => {
-    const {base64} = req.body
+router.post('/uploadImage', async (req, res) => { // Make sure this is an async function
+    const { base64 } = req.body;
 
     try {
-        Image.create({image: base64})
+        const newImage = await Image.create({ image: base64 }); // Await the Image creation
         
-        res.send({Status: "OK"})
+        res.send({ status: "OK", imageId: newImage._id }); // Send back the new image's ID
     } catch (error) {
-        res.send({Status: "Error: ", data:error})
+        res.status(500).send({ status: "Error", data: error }); // It's good practice to respond with an error status code on failure
     }
+});
 
-    
-})
 
 router.get('/get-images', async (req, res) => {
     try {

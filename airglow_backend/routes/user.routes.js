@@ -27,6 +27,46 @@ router.post("/signUp", async (req, res) => {
     }
 })
 
+// GET all users 
+
+router.get("/get-users", async (req, res) => {
+    try {
+        const allUsers = await User.find()
+        res.status(200).json(allUsers)
+        console.log("Users fetched successfully: ")
+    } catch (error) {
+        res.json(error.status)
+        console.log(error.status)
+    }
+})
+
+// GET user by email
+
+router.get("/get-user/:email", async (req, res, next) => {
+    const { email } = req.params
+    try {
+        const user = await User.findOne(email)
+        console.log("User: ", user, "Email: ", email)
+        console.log()
+    } catch (error) {
+        res.json(error.status)
+        console.log(error.status)
+    }
+ })
+
+router.get('/get-images', async (req, res) => {
+    try {
+        const allImages = await Image.find()
+        res.status(200).json(allImages)
+        console.log("Images fetched successfully: ")
+    } catch (error) {
+        res.json(error.status)
+        console.log(error.status)
+    }
+})
+
+
+
 
 
 
